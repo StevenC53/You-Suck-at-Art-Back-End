@@ -22,6 +22,43 @@ app.get('/api/phrases', (req, res) => {
     })
 })
 
+app.get('/api/history', (req, res) => {
+  GameState.find()
+  .then((gameState) => {
+    res.json(gameState)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+})
+
+app.post('/api/history', (req, res) => {
+  GameState.create(req.body)
+    .then((gameState) => {
+      res.json(gameState)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+app.put('/api/history/:id', (req, res) => {
+  GameState.findOneAndUpdate({_id: req.params.id}, req.body, {new: true})
+  .then((gameState) => {
+    res.json(gameState)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+})
+
+app.delete('/api/history/:id', (req, res) => {
+  GameState.findOneAndRemove({_id: req.params.id})
+  .then(() => {
+    res.redirect('/api/history')
+  })
+})
+
 app.listen(app.get('port'), () => {
   console.log('Server listening on port ' + app.get('port'))
 })
