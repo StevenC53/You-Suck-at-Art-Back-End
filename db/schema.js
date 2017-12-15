@@ -1,38 +1,33 @@
 const mongoose = require('./connection.js')
 
 const PhrasesSchema = new mongoose.Schema({
-  'Phrases': Array,
-  'UsedPhrases': Array
+  'phrases': Array,
+  'usedPhrases': Array
 })
 
-const GameSchema = new mongoose.Schema ({
-  'Date': {tyep: Date.now},
-  'Player': Number,
-  'Phrase': String,
-  'Guesses': {
-    type: Number,
-    default: 0
-  },
-  'History': [GameState],
-  'Complete': {
-    default: false,
-    type: bool
-  }
-})
+mongoose.model('Phrases', PhrasesSchema)
 
-const GameState = new mongoose.Schema ({
-  'Drawing':
-  'Guess': String,
-  'Date': {
-    type: Date.now
-  }
-  'Name': String
+const GameStateSchema = new mongoose.Schema ({
+  'drawing': String,
+  'guess': String,
+  'date': { type: Date, default: Date.now},
+  'name': String
 })
 
 mongoose.model('GameState', GameStateSchema)
 
-mongoose.model('Game', GameSchema)
+const GameSchema = new mongoose.Schema ({
+  'date': { type: Date, default: Date.now },
+  'player': Number,
+  'phrase': String,
+  'guesses': {
+    type: Number,
+    default: 0
+  },
+  'history': [GameStateSchema],
+  'complete': {  type: Boolean, default: false }
+})
 
-mongoose.model('Phrases', PhrasesSchema)
+mongoose.model('Game', GameSchema)
 
 module.exports = mongoose

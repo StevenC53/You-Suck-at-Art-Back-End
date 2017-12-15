@@ -1,11 +1,13 @@
 const mongoose = require('./schema.js')
-const phrases = mongoose.model('phrases')
+const Phrases = mongoose.model('Phrases')
 const phrasesData = require('./phrases-data.json')
 
 
 Phrases.remove({})
   .then(() => {
-    Phrases.collection.insert(phrasesData)
+    Phrases.collection.insert({
+      'phrases': phrasesData
+    })
       .then((phrasess) => {
         console.log(phrasess)
         process.exit()
