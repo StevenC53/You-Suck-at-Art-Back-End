@@ -1,11 +1,8 @@
 const mongoose = require('./connection.js')
 
-const PhrasesSchema = new mongoose.Schema({
-  'phrases': Array,
-  'usedPhrases': Array
+const PhraseSchema = new mongoose.Schema({
+  'phrase': String
 })
-
-mongoose.model('Phrases', PhrasesSchema)
 
 const GameStateSchema = new mongoose.Schema ({
   'drawing': String,
@@ -13,8 +10,6 @@ const GameStateSchema = new mongoose.Schema ({
   'date': { type: Date, default: Date.now},
   'name': String
 })
-
-mongoose.model('GameState', GameStateSchema)
 
 const GameSchema = new mongoose.Schema ({
   'date': { type: Date, default: Date.now },
@@ -28,6 +23,8 @@ const GameSchema = new mongoose.Schema ({
   'complete': {  type: Boolean, default: false }
 })
 
+mongoose.model('Phrase', PhraseSchema)
+mongoose.model('GameState', GameStateSchema)
 mongoose.model('Game', GameSchema)
 
 module.exports = mongoose

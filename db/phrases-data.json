@@ -1,1 +1,8 @@
-["this", "is", "just", "for", "testing", "purposes"]
+[
+  {
+    "phrase": "test"
+  },
+  {
+    "phrase": "Second Test"
+  }
+]
