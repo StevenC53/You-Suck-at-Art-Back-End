@@ -8,7 +8,7 @@ const GameStateSchema = new mongoose.Schema ({
   'drawing': String,
   'guess': String,
   'date': { type: Date, default: Date.now},
-  'name': String
+  'name': String,
 })
 
 const GameSchema = new mongoose.Schema ({
