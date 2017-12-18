@@ -5,7 +5,7 @@ const Phrase = mongoose.model('Phrase')
 const GameState = mongoose.model('GameState')
 const Game = mongoose.model('Game')
 const cors = require('cors')
-const random = require('mongoose-simple-random')
+const random = require('mongoose-random')
 
 const app = express()
 
@@ -13,16 +13,6 @@ app.set('port', process.env.PORT || 3001)
 app.use(parser.urlencoded({extended: true}))
 app.use(parser.json())
 app.use(cors())
-
-app.get('/api/phrase', (req, res) => {
-
-      Phrase.findOneRandom(function(err, result) {
-        if (!err) {
-          console.log(result); // 1 element
-        }
-      })
-
-})
 
 app.get('/api/game', (req, res) => {
   Game.find()
@@ -32,6 +22,16 @@ app.get('/api/game', (req, res) => {
   .catch((err) => {
     console.log(err)
   })
+})
+
+app.put('/api/game/:id', (req, res) => {
+  Game.findOneAndUpdate({_id: req.params.id}, req.body, {new: true})
+    .then((game) => {
+      res.json(game)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 })
 
 app.get('/api/game/:id', (req, res) => {
@@ -46,12 +46,20 @@ app.get('/api/game/:id', (req, res) => {
 
 app.post('/api/game', (req, res) => {
   Game.create(req.body)
-  .then((game) => {
-    res.json(game)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+    .then((game) => {
+      Phrase.find()
+      .then((phrase) => {
+        game.pharase = phrase[(Math.floor(Math.random() * phrase.length))].phrase
+        game.save()
+        .then((game) => {
+          res.tatus(200).json(game)
+        })
+      })
+      res.json(game)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 })
 
 app.get('/api/game/:id/history', (req, res) => {
@@ -68,7 +76,6 @@ app.post('/api/game/:id/history', (req, res) => {
         game.history.push(newGameState)
         game.guesses += 1
         if (game.guesses === game.player) {game.complete = true}
-        console.log(game.guesses)
         game.save()
           .then((game) => {
             res.status(200).json(game)
