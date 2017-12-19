@@ -49,7 +49,7 @@ app.post('/api/game', (req, res) => {
     .then((game) => {
       Phrase.find()
       .then((phrase) => {
-        game.pharase = phrase[(Math.floor(Math.random() * phrase.length))].phrase
+        game.phrase = phrase[(Math.floor(Math.random() * phrase.length))].phrase
         game.save()
         .then((game) => {
           res.tatus(200).json(game)

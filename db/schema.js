@@ -14,7 +14,7 @@ const GameStateSchema = new mongoose.Schema ({
 const GameSchema = new mongoose.Schema ({
   'date': { type: Date, default: Date.now },
   'player': Number,
-  'pharase': String,
+  'phrase': String,
   'guesses': {
     type: Number,
     default: 0
