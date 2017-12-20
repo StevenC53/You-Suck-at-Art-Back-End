@@ -3,8 +3,6 @@ const Phrase = mongoose.model('Phrase')
 const phrasesData = require('./phrases-data.json')
 const GameState = mongoose.model('GameState')
 const Game = mongoose.model('Game')
-const gameData = require('./game-data.json')
-const gameStateData = require('./game-state-data.json')
 
 Phrase.remove({})
   .then(() => {
