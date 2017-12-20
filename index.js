@@ -52,7 +52,7 @@ app.post('/api/game', (req, res) => {
         game.phrase = phrase[(Math.floor(Math.random() * phrase.length))].phrase
         game.save()
         .then((game) => {
-          res.tatus(200).json(game)
+          res.status(200).json(game)
         })
       })
       res.json(game)
