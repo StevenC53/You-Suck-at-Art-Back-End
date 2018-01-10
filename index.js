@@ -10,18 +10,23 @@ const random = require('mongoose-random')
 const app = express()
 
 app.set('port', process.env.PORT || 3001)
-app.use(parser.urlencoded({extended: true}))
+// You shouldn't need to use the urlEncoded() method anymore since it is only used to
+// parse form data. Since your requests from axios will be json, the json() method is all you need
 app.use(parser.json())
 app.use(cors())
+// ^ Consider adding configuration to have CORS only allow access from specific origins you need
 
 app.get('/api/game', (req, res) => {
   Game.find()
-  .then((games)=> {
-    res.json(games)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+    .then((games)=> {
+      res.json(games)
+    })
+    .catch((err) => {
+      res.status(500).json(err)
+      // With an API, you always want to send a response back, even if it is just notification
+      // of an internal error
+      console.log(err)
+    })
 })
 
 app.put('/api/game/:id', (req, res) => {
@@ -68,6 +73,8 @@ app.get('/api/game/:id/history', (req, res) => {
       res.json(game.history)
     })
   })
+// ^ I'm not sure that you need this route as the `history` (a nested document) will
+// be sent with the game itself at the `api/game/:id` route
 
 app.post('/api/game/:id/history', (req, res) => {
   Game.findOne({_id: req.params.id})
@@ -89,6 +96,8 @@ app.delete('/api/game/:id', (req, res) => {
     res.redirect('/api/game')
   })
 })
+
+// Don't forget to have `catch` statements for each of the above operations
 
 app.listen(app.get('port'), () => {
   console.log('Server listening on port ' + app.get('port'))

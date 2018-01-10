@@ -22,6 +22,7 @@ Game.remove({})
       .then((game) => {
         process.exit()
       })
+    // ^ gameData in not defined anywhere
   })
   .catch((err) => {
     console.log(err)
@@ -33,6 +34,7 @@ Game.remove({})
         .then((gameState) => {
           process.exit()
         })
+      // gameStateData is not defined anywhere
     })
     .catch((err) => {
       console.log(err)

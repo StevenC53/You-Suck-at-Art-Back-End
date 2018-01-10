@@ -1,19 +1,21 @@
 const mongoose = require('./connection.js')
 
 const PhraseSchema = new mongoose.Schema({
-  'phrase': String
+  phrase: String
 })
+// ^ You don't need to surround your keys with quotes
 
-const GameStateSchema = new mongoose.Schema ({
+const GameStateSchema = new mongoose.Schema({
   'drawing': String,
   'guess': String,
   'date': { type: Date, default: Date.now},
   'name': String,
 })
 
-const GameSchema = new mongoose.Schema ({
+const GameSchema = new mongoose.Schema({
   'date': { type: Date, default: Date.now },
   'player': Number,
+  // ^ consider making this something more descriptive, like `numPlayers`
   'phrase': String,
   'guesses': {
     type: Number,
